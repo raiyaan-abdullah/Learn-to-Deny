@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Human Baseline Quiz</title>
+      <style>
+         * { box-sizing: border-box; }
+
+         body {
+            font-family: sans-serif;
+            padding: 16px;
+            max-width: 640px;
+            margin: auto;
+            font-size: 16px;
+         }
+
+         h1 { font-size: clamp(1.4rem, 5vw, 2rem); }
+
+         .question {
+            margin-bottom: 32px;
+            border: 1px solid #ddd;
+            padding: 14px;
+            border-radius: 8px;
+         }
+
+         .question img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            display: block;
+         }
+
+         .choice {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 10px 0;
+            padding: 8px 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.15s;
+         }
+
+         .choice:hover { background: #f5f5f5; }
+
+         .choice input[type="radio"] {
+            margin-top: 3px;
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+         }
+
+         .choice label {
+            cursor: pointer;
+            line-height: 1.4;
+         }
+
+         button {
+            background-color: #1a8032;
+            color: white;
+            padding: 12px 28px;
+            border: none;
+            cursor: pointer;
+            border-radius: 40px;
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 8px;
+         }
+
+         button:disabled { background-color: #ccc; cursor: not-allowed; }
+
+         #message {
+            margin-top: 16px;
+            font-weight: bold;
+            text-align: center;
+         }
+
+         .info-text {
+            color: #333;
+            margin: 4px 0;
+         }
+
+         .text-container {
+            position: relative;
+            height: 50px;
+            width: 320px;
+            font-family: sans-serif;
+            font-size: 20px;
+            color: rgb(5, 1, 255);
+         }
+
+         .blink {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            margin: 0;
+            animation: blink 22s linear infinite;
+         }
+
+         /* 22 models × 1s each = 22s total cycle */
+         .blink:nth-child(1)  { animation-delay: 0s; }
+         .blink:nth-child(2)  { animation-delay: 1s; }
+         .blink:nth-child(3)  { animation-delay: 2s; }
+         .blink:nth-child(4)  { animation-delay: 3s; }
+         .blink:nth-child(5)  { animation-delay: 4s; }
+         .blink:nth-child(6)  { animation-delay: 5s; }
+         .blink:nth-child(7)  { animation-delay: 6s; }
+         .blink:nth-child(8)  { animation-delay: 7s; }
+         .blink:nth-child(9)  { animation-delay: 8s; }
+         .blink:nth-child(10) { animation-delay: 9s; }
+         .blink:nth-child(11) { animation-delay: 10s; }
+         .blink:nth-child(12) { animation-delay: 11s; }
+         .blink:nth-child(13) { animation-delay: 12s; }
+         .blink:nth-child(14) { animation-delay: 13s; }
+         .blink:nth-child(15) { animation-delay: 14s; }
+         .blink:nth-child(16) { animation-delay: 15s; }
+         .blink:nth-child(17) { animation-delay: 16s; }
+         .blink:nth-child(18) { animation-delay: 17s; }
+         .blink:nth-child(19) { animation-delay: 18s; }
+         .blink:nth-child(20) { animation-delay: 19s; }
+         .blink:nth-child(21) { animation-delay: 20s; }
+         .blink:nth-child(22) { animation-delay: 21s; }
+
+         @keyframes blink {
+            /* each model is visible for ~1s out of 22s = 4.55% of cycle */
+            0%     { opacity: 0; transform: translateY(10px); }
+            0.5%   { opacity: 1; transform: translateY(0); }
+            4%     { opacity: 1; }
+            4.55%  { opacity: 0; }
+            100%   { opacity: 0; }
+         }
+
+         @media (max-width: 480px) {
+            body { padding: 10px; }
+            .choice { padding: 10px 8px; }
+            button { padding: 14px; font-size: 1.05rem; }
+         }
+      </style>
+   </head>
+   <body>
+      <h1>Human Baseline Quiz</h1>
+      Each video below shows a person or a group of people performing an action. From the list of options, select the caption that most accurately describes what is happening in the video. There is also a choice if none of the actions are fully performed. Review the video and captions carefully before answering.
+      <br><br>
+
+      <p class="info-text">🎬 If you are not familiar with the terminology of a certain action in the choices, <a href="https://drive.google.com/drive/folders/15Cop78DYY34PSNpxeYCW6DEF7gujG2D2?usp=sharing" target="_blank">you may view an example here</a>.</p>
+      <p class="info-text">⏳ Please wait for each gif to load before answering.</p>
+      <p class="info-text">📤 Please wait after clicking submit. Refresh for different questions.</p>
+
+      <br>
+      <strong>Your AI Competitors:</strong><br>
+      <div class="text-container">
+         <p class="blink">Ovis2.5-9B</p>
+         <p class="blink">Ovis2-8B</p>
+         <p class="blink">InternVideo2.5_Chat-8B</p>
+         <p class="blink">InternVL2.5-8B</p>
+         <p class="blink">Qwen2.5-VL-7B-Instruct</p>
+         <p class="blink">VideoLLaMA3-7B</p>
+         <p class="blink">VideoChat-Flash-Qwen2-7B</p>
+         <p class="blink">Oryx-7B</p>
+         <p class="blink">Valley-Eagle-7B</p>
+         <p class="blink">LLaVA-Video-7B-Qwen2</p>
+         <p class="blink">Kimi-VL-A3B-Instruct</p>
+         <p class="blink">Ovis2.5-2B</p>
+         <p class="blink">Qwen2.5-VL-3B-Instruct</p>
+         <p class="blink">VideoLLaMA3-2B</p>
+         <p class="blink">Qwen2.5-VL-72B-Instruct</p>
+         <p class="blink">GPT4o-mini</p>
+         <p class="blink">Ovis2.5-9B (thinking)</p>
+         <p class="blink">Video-R1-7B</p>
+         <p class="blink">Kimi-VL-A3B-Thinking</p>
+         <p class="blink">ARC-Hunyuan-Video-7B</p>
+         <p class="blink">Lumian-VLR-7B-Thinking</p>
+      </div>
+
+      <br><br>
+
+      <form name="submit-to-google-sheet">
+         <div id="quiz-container">
+            <!-- Questions injected here by JS -->
+         </div>
+
+         <br>
+         <button type="submit">Submit All Answers</button>
+      </form>
+      <p id="message"></p>
+
+      <script>
+         const QUESTIONS_JSON        = 'subset_for_quiz_questions.json';
+         const CONTENT_FOLDER        = 'content/';
+         const scriptURL             = 'https://script.google.com/macros/s/AKfycby_HzSLDTQDxutUDXeucFXYjjAl_w6nmksI1XRFn1tDDG9cltqOdCUjNsAXkA7HwQ5hsQ/exec';
+         const NUM_QUESTIONS_TO_SHOW = 5;
+
+         // Store selected questions for submission
+         let selectedQuestions = [];
+
+         // -------------------------------------------------------
+         // Load questions from JSON and render
+         // -------------------------------------------------------
+         async function loadQuestions() {
+            let data;
+            try {
+               const res = await fetch(QUESTIONS_JSON);
+               data = await res.json();
+            } catch (err) {
+               document.getElementById('quiz-container').innerHTML =
+                  '<p style="color:red;">Failed to load questions: ' + err.message + '</p>';
+               return;
+            }
+
+            // Group questions by their "Not" action class
+            const byAction = {};
+            data.forEach(q => {
+               // video_name is like "NotApplyEyeMakeup/v_NotApplyEyeMakeup_g07_c08.mp4"
+               const action = q.video_name.split('/')[0];  // e.g. "NotApplyEyeMakeup"
+               if (!byAction[action]) byAction[action] = [];
+               byAction[action].push(q);
+            });
+
+            // Shuffle the action keys and pick NUM_QUESTIONS_TO_SHOW
+            const actions = Object.keys(byAction).sort(() => Math.random() - 0.5);
+            const pickedActions = actions.slice(0, NUM_QUESTIONS_TO_SHOW);
+
+            // For each picked action, randomly sample 1 question
+            selectedQuestions = pickedActions.map(action => {
+               const pool = byAction[action];
+               return pool[Math.floor(Math.random() * pool.length)];
+            });
+
+            renderQuestions(selectedQuestions);
+         }
+
+         // -------------------------------------------------------
+         // Build HTML for each question
+         // -------------------------------------------------------
+         function renderQuestions(questions) {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            questions.forEach((q, idx) => {
+               const gifPath      = CONTENT_FOLDER + q.video_name.replace('.mp4', '.gif');
+               const questionName = 'Q' + (idx + 1);  // Q1, Q2, Q3, Q4, Q5
+
+               let optionsHTML = '';
+               const PREFIX = 'A person or group of people is ';
+
+               q.choices.forEach((choice, choiceIdx) => {
+                  const displayNumber = choiceIdx + 1;
+                  const inputId       = questionName + '_' + displayNumber;
+                  // Strip shared prefix from non-None choices; capitalise first letter of remainder
+                  const lower = choice.toLowerCase();
+                  const displayChoice = lower.startsWith(PREFIX.toLowerCase())
+                     ? choice.slice(PREFIX.length).replace(/^./, c => c.toUpperCase())
+                     : choice;
+                  optionsHTML += `
+                     <div class="choice" onclick="document.getElementById('${inputId}').click()">
+                        <input
+                           type="radio"
+                           id="${inputId}"
+                           name="${questionName}"
+                           value="${displayNumber}"
+                           required
+                           onclick="event.stopPropagation()"
+                        >
+                        <label for="${inputId}">
+                           <strong>${displayNumber}.</strong> ${displayChoice}
+                        </label>
+                     </div>
+                  `;
+               });
+
+               container.innerHTML += `
+                  <div class="question">
+                     <p style="font-weight:bold; margin-bottom: 8px;">
+                        Question ${idx + 1} of ${NUM_QUESTIONS_TO_SHOW}
+                     </p>
+                     <img src="${gifPath}" alt="Video clip ${idx + 1}">
+                     <p style="margin: 8px 0 4px; color: #555;">A person or group of people is…</p>
+                     ${optionsHTML}
+                  </div>
+               `;
+            });
+         }
+
+         // -------------------------------------------------------
+         // Form submission — one row per question, all same timestamp
+         // -------------------------------------------------------
+         const form = document.forms['submit-to-google-sheet'];
+         const msg  = document.getElementById('message');
+
+         form.addEventListener('submit', async e => {
+            e.preventDefault();
+
+            // Validate all questions answered
+            for (let i = 0; i < selectedQuestions.length; i++) {
+               if (!form['Q' + (i + 1)].value) {
+                  msg.innerHTML   = `⚠️ Please answer Question ${i + 1} before submitting.`;
+                  msg.style.color = 'red';
+                  return;
+               }
+            }
+
+            msg.innerHTML   = 'Sending answers...';
+            msg.style.color = '#333';
+
+            // One timestamp shared across all 5 rows — lets you group a session
+            const timestamp = new Date().toUTCString();
+
+            const promises = selectedQuestions.map((q, idx) => {
+               const selectedAnswer = parseInt(form['Q' + (idx + 1)].value);
+               const correctAnswer  = q.none_index + 1;
+               const isCorrect      = (selectedAnswer === correctAnswer) ? 'TRUE' : 'FALSE';
+
+               const payload = new FormData();
+               payload.append('timestamp_utc',       timestamp);
+               payload.append('video_name',          q.video_name);
+               payload.append('user_answer',         selectedAnswer);
+               payload.append('main_positive_index', q.main_positive_index + 1);
+               payload.append('none_index',          q.none_index + 1);
+               payload.append('is_correct',          isCorrect);
+
+               return fetch(scriptURL, { method: 'POST', body: payload });
+            });
+
+            try {
+               await Promise.all(promises);
+               msg.innerHTML   = '✅ Success! Your answers have been saved.<br><br>🙏 Thank you dear friend for supporting my research!<br><br><button type="button" onclick="location.reload()" style="width:auto; padding: 10px 24px;">🔄 Load New Questions</button>';
+               msg.style.color = 'green';
+               form.reset();
+            } catch (err) {
+               msg.innerHTML   = '❌ Error: ' + err.message;
+               msg.style.color = 'red';
+            }
+         });
+
+         // -------------------------------------------------------
+         // Kick off
+         // -------------------------------------------------------
+         loadQuestions();
+      </script>
+   </body>
+</html>
