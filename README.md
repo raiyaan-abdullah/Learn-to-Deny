@@ -5,6 +5,7 @@
 [![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://raiyaan.xyz/Learn-to-Deny-webpage/)
 
 Official code and dataset for **Learning to Deny: Action Denial in Multimodal Large Language Models**.
+
 Our paper has been accepted to ECCV 2026 as a Spotlight paper. 🎉
 
 **Authors:** Raiyaan Abdullah, Shehreen Azad, and Yogesh Singh Rawat
