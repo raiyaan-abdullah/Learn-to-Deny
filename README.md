@@ -8,11 +8,13 @@ Official code and dataset for **Learning to Deny: Action Denial in Multimodal La
 
 **Authors:** Raiyaan Abdullah, Shehreen Azad, and Yogesh Singh Rawat
 
-🎉 June 18, 2026: Our work has been accepted to ECCV 2026 as a Spotlight paper.
+🎉 June 18, 2026: Our work has been accepted to ECCV 2026 as a Spotlight paper Spotlight Paper 🌟.
 
 ## Overview
 
 Multimodal large language models can recognize actions when they occur, but they often predict a plausible action from the surrounding people, objects, and scene even when its defining interaction or motion is absent. We introduce **UCF101-AD**, a benchmark of paired action-presence and action-denial videos for measuring this behavior, and **CausalAct**, a causal prompting formulation that links persons, objects, locations, spatial relations, interactions, motions, and actions.
+
+![Learn to Deny ECCV 2026 overview](media/ECCV%202026%20Social%20Media%20video%20-%20Learn%20to%20Deny.gif)
 
 ## Multiple-choice questions
 
