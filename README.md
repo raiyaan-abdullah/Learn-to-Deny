@@ -8,7 +8,7 @@ Official code and dataset for **Learning to Deny: Action Denial in Multimodal La
 
 **Authors:** Raiyaan Abdullah, Shehreen Azad, and Yogesh Singh Rawat
 
-🎉 June 18, 2026: Our work has been accepted to ECCV 2026 as a Spotlight paper Spotlight Paper 🌟.
+🎉 June 18, 2026: Our work has been accepted to ECCV 2026 as a Spotlight Paper 🌟.
 
 ## Overview
 
